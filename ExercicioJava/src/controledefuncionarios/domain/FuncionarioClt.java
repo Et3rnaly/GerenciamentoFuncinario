@@ -55,6 +55,16 @@ public class FuncionarioClt extends Funcionario {
     }
 
     @Override
+    public void exbirDados() {
+        System.out.println("\n--- Funcionario CLT ---");
+        System.out.println("\nNome: " + getNome());
+        System.out.println("Cpf: " + getCpf());
+        System.out.println("Tem beneficio: " + temBeneficos);
+        System.out.println("Tempo de empresa: " + tempoDeEmpresaEmMeses);
+        System.out.println("=======================");
+    }
+
+    @Override
     public String toString() {
         return "FuncionarioClt{" +
                 "beneficios=" + beneficios +

@@ -12,14 +12,9 @@ public abstract class Funcionario {
         this.salarioBase = salarioBase;
     }
 
-    public void exbirDados(){
-        System.out.println(this.nome);
-        System.out.println(this.cpf);
-        System.out.println(this.salarioBase);
-    }
+    public abstract void exbirDados();
 
-   public abstract double calcularSalario();
-
+    public abstract double calcularSalario();
 
     public String getNome() {
         return nome;

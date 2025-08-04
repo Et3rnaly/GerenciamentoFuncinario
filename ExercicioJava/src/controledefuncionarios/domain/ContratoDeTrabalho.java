@@ -7,6 +7,8 @@ public class ContratoDeTrabalho {
     private double valorHoraExtra;
     private int horasExtras;
 
+    private double valorHora;
+
     public ContratoDeTrabalho(Funcionario funcionario, double valorHoraExtra, int horasExtras) {
         this.funcionario = funcionario;
         this.valorHoraExtra = valorHoraExtra;
@@ -39,5 +41,13 @@ public class ContratoDeTrabalho {
 
     public void setHorasExtras(int horasExtras) {
         this.horasExtras = horasExtras;
+    }
+
+    public double getValorHora() {
+        return valorHora;
+    }
+
+    public void setValorHora(double valorHora) {
+        this.valorHora = valorHora;
     }
 }
