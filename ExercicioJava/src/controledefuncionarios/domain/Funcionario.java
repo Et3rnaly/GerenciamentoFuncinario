@@ -1,5 +1,9 @@
 package controledefuncionarios.domain;
 
+import controledefuncionarios.enums.TipoFuncionario;
+import controledefuncionarios.exceptions.IllegalSalaryArgumentException;
+import controledefuncionarios.exceptions.InvalidOperationTipeException;
+
 public abstract class Funcionario {
     private String nome;
     private String cpf;
@@ -10,6 +14,22 @@ public abstract class Funcionario {
         this.nome = nome;
         this.cpf = cpf;
         this.salarioBase = salarioBase;
+    }
+
+    public static boolean isValidSalario(Double salario){
+        if (salario == null || salario < 0){
+            throw new IllegalSalaryArgumentException("Salario invalido seu salario não pode ser negativo. Operação cancelada.");
+        }
+        return true;
+    }
+
+    public static boolean isValidTipe(String tipe) {
+        try {
+            TipoFuncionario.valueOf(tipe.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            throw new InvalidOperationTipeException("Tipo de funcionario invalido, informe um valor valido 'clt' ou 'pj'. Operação cancelada.");
+        }
     }
 
     public abstract void exbirDados();
