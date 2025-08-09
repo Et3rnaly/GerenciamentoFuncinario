@@ -1,6 +1,10 @@
 package controledefuncionarios.test;
 
 import controledefuncionarios.domain.*;
+import controledefuncionarios.enums.TipoFuncionario;
+import controledefuncionarios.exceptions.IllegalSalaryArgumentException;
+import controledefuncionarios.exceptions.InvalidOperationTipeException;
+import controledefuncionarios.exceptions.InvalidValueBooleanException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +21,7 @@ public class MainTest02 {
         System.out.println("Bem-vindo ao sistema de gerenciamento de funcionários!");
 
         while (true) {
-            System.out.printf("\n--- Menu principal ---");
+            System.out.println("\n--- Menu principal ---");
             System.out.println("\n1. Adicionar novo funcionário");
             System.out.println("2. Listar todos os funcionários");
             System.out.println("3. Holerite dos funcionarios");
@@ -29,7 +33,16 @@ public class MainTest02 {
             switch (opcaoMenu) {
                 case "1":
                     System.out.print("\nO funcionário é CLT ou PJ? (Digite 'CLT' ou 'PJ'): ");
-                    String tipoFuncionario = input.nextLine();
+
+                    String tipoFuncionario = input.nextLine().trim();
+
+                    try {
+                        Funcionario.isValidTipe(tipoFuncionario);
+                    } catch (InvalidOperationTipeException e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+
 
                     System.out.println("Digite o nome do seu funcionario: ");
                     String nome = input.nextLine();
@@ -38,16 +51,45 @@ public class MainTest02 {
                     String cpf = input.nextLine();
 
                     System.out.println("Informe o salario do seu funcionario Ex (2000.50)");
-                    double salario = Double.parseDouble(input.nextLine());
+
+                    double salario = -1;
+
+                    try {
+                        salario = Double.parseDouble(input.nextLine());
+                        Funcionario.isValidSalario(salario);
+                    } catch (NumberFormatException e) {
+                        System.out.println("\nSalário inválido. Por favor, digite um número valido. Operação cancelada.");
+                        continue;
+                    } catch (IllegalSalaryArgumentException e){
+                        System.out.println("\n" + e.getMessage());
+                        continue;
+                    }
 
                     if (tipoFuncionario.equalsIgnoreCase("clt")) {
                         System.out.println("Possui benefio? (true/false): ");
-                        boolean benefio = Boolean.parseBoolean(input.nextLine());
+                        String entrada = input.nextLine().trim();
+                        boolean beneficio;
+                        try {
+                            if (!entrada.equalsIgnoreCase("true") && !entrada.equalsIgnoreCase("false")) {
+                                throw new InvalidValueBooleanException("\nErro! O valor digitado não é válido. Digite apenas 'true' ou 'false'. Operação cancelada.");
+                            }
+                            beneficio = Boolean.parseBoolean(entrada);
+                        } catch (InvalidValueBooleanException e) {
+                            e.printStackTrace();
+                            continue;
+                        }
 
                         System.out.println("Quanto tempo trabalhou na empresa: ");
-                        int tempoDeEmpresa = Integer.parseInt(input.nextLine());
+                        int tempoDeEmpresa = 0;
 
-                        funcionarios.add(new FuncionarioClt(nome, cpf, salario, benefio, tempoDeEmpresa));
+                        try {
+                            tempoDeEmpresa = Integer.parseInt(input.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("\nTempo inválido. Por favor, digite um número. Operação cancelada.");
+                            continue;
+                        }
+
+                        funcionarios.add(new FuncionarioClt(nome, cpf, salario, beneficio, tempoDeEmpresa));
 
                         System.out.println("\nFuncionarioCLT adicionando com sucesso!");
 
@@ -58,7 +100,15 @@ public class MainTest02 {
                         String cnpj = input.nextLine();
 
                         System.out.println("informe quantas entregas esse funcionario relaizou: ");
-                        int entregas = Integer.parseInt(input.nextLine());
+                        int entregas = 0;
+
+                        try {
+                            entregas = Integer.parseInt(input.nextLine());
+                        } catch (NumberFormatException e) {
+                            System.out.println("\nQuantidade de entregas inválido. Por favor, digite um número. Operação cancelada.");
+                            continue;
+                        }
+
 
                         funcionarios.add(new FuncionarioPj(nome, cpf, cnpj, salario, entregas));
                         System.out.println("\nFuncionarioPJ adicionando com sucesso!");
@@ -91,11 +141,11 @@ public class MainTest02 {
                         System.out.println("Qual o valor da hora para esse funcionario: ");
                         int valorDaHoraExtra = Integer.parseInt(input.nextLine());
 
-                       ContratoDeTrabalho novoCotrato = new ContratoDeTrabalho(funcionarios.get(i), valorDaHoraExtra, quantidadeDeHorasExtras);
+                        ContratoDeTrabalho novoCotrato = new ContratoDeTrabalho(funcionarios.get(i), valorDaHoraExtra, quantidadeDeHorasExtras);
 
-                       Holerite novoHolerite = new Holerite(novoCotrato);
+                        Holerite novoHolerite = new Holerite(novoCotrato);
 
-                       novoHolerite.imprimirHolerite();
+                        novoHolerite.imprimirHolerite();
                     }
 
                     continue;
