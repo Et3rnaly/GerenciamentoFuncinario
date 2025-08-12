@@ -43,29 +43,28 @@ public class MainTest02 {
                         continue;
                     }
 
-
-                    System.out.println("Digite o nome do seu funcionario: ");
-                    String nome = input.nextLine();
-
-                    System.out.println("Digite o cpf do seu funcionario: ");
-                    String cpf = input.nextLine();
-
-                    System.out.println("Informe o salario do seu funcionario Ex (2000.50)");
-
-                    double salario = -1;
-
-                    try {
-                        salario = Double.parseDouble(input.nextLine());
-                        Funcionario.isValidSalario(salario);
-                    } catch (NumberFormatException e) {
-                        System.out.println("\nSalário inválido. Por favor, digite um número valido. Operação cancelada.");
-                        continue;
-                    } catch (IllegalSalaryArgumentException e){
-                        System.out.println("\n" + e.getMessage());
-                        continue;
-                    }
-
                     if (tipoFuncionario.equalsIgnoreCase("clt")) {
+
+                        System.out.println("Digite o nome do seu funcionario: ");
+                        String nome = input.nextLine();
+
+                        System.out.println("Digite o cpf do seu funcionario: ");
+                        String cpf = input.nextLine();
+
+                        System.out.println("Informe o salario do seu funcionario Ex (2000.50)");
+
+                        double salario = -1;
+
+                        try {
+                            salario = Double.parseDouble(input.nextLine());
+                            Funcionario.isValidSalario(salario);
+                        } catch (NumberFormatException e) {
+                            System.out.println("\nSalário inválido. Por favor, digite um número valido. Operação cancelada.");
+                            continue;
+                        } catch (IllegalSalaryArgumentException e) {
+                            System.out.println("\n" + e.getMessage());
+                            continue;
+                        }
                         System.out.println("Possui benefio? (true/false): ");
                         String entrada = input.nextLine().trim();
                         boolean beneficio;
@@ -93,28 +92,54 @@ public class MainTest02 {
 
                         System.out.println("\nFuncionarioCLT adicionando com sucesso!");
 
-                        continue;
-
                     } else {
-                        System.out.println("Informe o cnpj do funcionario: ");
+                        System.out.println("Digite o nome do prestador: ");
+                        String nome = input.nextLine();
+
+                        System.out.println("Informe o cnpj do prestador: ");
                         String cnpj = input.nextLine();
 
-                        System.out.println("informe quantas entregas esse funcionario relaizou: ");
-                        int entregas = 0;
 
+                        System.out.println("Qual o valor da hora do seu prestador: ");
+                        double valorHora = Double.parseDouble(input.nextLine());
+
+                        System.out.println("Quantas horas seu prestador trabalhou: ");
+                        int horasTrabalhadas = Integer.parseInt(input.nextLine());
+
+                        System.out.println("Possui bonus? (true/false): ");
+                        String entrada = input.nextLine().trim();
+                        boolean bonus;
                         try {
-                            entregas = Integer.parseInt(input.nextLine());
-                        } catch (NumberFormatException e) {
-                            System.out.println("\nQuantidade de entregas inválido. Por favor, digite um número. Operação cancelada.");
+                            if (!entrada.equalsIgnoreCase("true") && !entrada.equalsIgnoreCase("false")) {
+                                throw new InvalidValueBooleanException("\nErro! O valor digitado não é válido. Digite apenas 'true' ou 'false'. Operação cancelada.");
+                            }
+                            bonus = Boolean.parseBoolean(entrada);
+                        } catch (InvalidValueBooleanException e) {
+                            e.printStackTrace();
                             continue;
                         }
 
+                        FuncionarioPj f = new FuncionarioPj(nome, cnpj, valorHora, horasTrabalhadas, bonus);
 
-                        funcionarios.add(new FuncionarioPj(nome, cpf, cnpj, salario, entregas));
+                        if (bonus) {
+                            System.out.println("informe quantas entregas esse prestador relaizou: ");
+                            int entregas = 0;
+
+                            try {
+                                entregas = Integer.parseInt(input.nextLine());
+                            } catch (NumberFormatException e) {
+                                System.out.println("\nQuantidade de entregas inválido. Por favor, digite um número. Operação cancelada.");
+                                continue;
+                            }
+
+                            f.aplicarBonus(entregas);
+                        }
+
+                        funcionarios.add(f);
                         System.out.println("\nFuncionarioPJ adicionando com sucesso!");
 
-                        continue;
                     }
+                    continue;
 
                 case "2":
                     if (funcionarios.isEmpty()) {
