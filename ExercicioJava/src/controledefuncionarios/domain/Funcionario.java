@@ -4,6 +4,9 @@ import controledefuncionarios.enums.TipoFuncionario;
 import controledefuncionarios.exceptions.IllegalSalaryArgumentException;
 import controledefuncionarios.exceptions.InvalidOperationTipeException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public abstract class Funcionario {
     private String nome;
     private String cpf;

@@ -13,23 +13,12 @@ public class FuncionarioPj extends Funcionario implements DescontosPj {
     private double bonus;
 
     public FuncionarioPj(String nomePrestador, String cnpj, double valorHora, int horasTrabalhadas, boolean bonus) {
-        super(nomePrestador, cnpj, valorHora);
+        super(nomePrestador, null, valorHora);
         this.horasTrabalhadas = horasTrabalhadas;
         this.isBonus = bonus;
-    }
-
-    public double aplicarBonus(int projetosEntregues) {
-        if (projetosEntregues <= 0) return 0;
-
-        if (projetosEntregues <= 2) {
-            bonus = BonusRelacionado.BONUS_DEFAUT.getBonus() * getSalarioBase();
-        } else if (projetosEntregues <= 5) {
-            bonus = BonusRelacionado.BONUS_MEDIO.getBonus() * getSalarioBase();
-        } else {
-            bonus = BonusRelacionado.BONUS_MAXIMO.getBonus() * getSalarioBase();
-        }
-
-        return bonus;
+        this.valorHora = valorHora;
+        this.cnpj = cnpj;
+        this.nomePrestador = nomePrestador;
     }
 
     @Override
@@ -37,27 +26,60 @@ public class FuncionarioPj extends Funcionario implements DescontosPj {
         return DescontosPj.super.calcularISS(valorServico);
     }
 
-    @Override
-    public double calcularSalario() {
-        return (valorHora * horasTrabalhadas) + bonus;
+    public double aplicarBonus(int projetosEntregues) {
+        if (!isBonus || projetosEntregues <= 0) {
+            bonus = 0;
+            return bonus;
+        }
+
+        if (projetosEntregues <= 2) {
+            bonus = BonusRelacionado.BONUS_DEFAUT.getBonus() * calcularSalario();
+        } else if (projetosEntregues <= 5) {
+            bonus = BonusRelacionado.BONUS_MEDIO.getBonus() * calcularSalario();
+        } else {
+            bonus = BonusRelacionado.BONUS_MAXIMO.getBonus() * calcularSalario();
+        }
+
+        return bonus;
     }
 
-    public double calcularSalarioLiquido(){
-        double salarioBruto = calcularSalario();
+    @Override
+    public double calcularSalario() {
+        double salarioBruto = this.valorHora * this.horasTrabalhadas;
         double desconto = calcularISS(salarioBruto);
-        
-        return salarioBruto - desconto;
+        double salarioLiquidoFinal = salarioBruto - desconto + bonus;
+
+        return salarioLiquidoFinal;
     }
+
 
     @Override
     public void exbirDados() {
-        System.out.println("--- Contrato PJ ---");
+        System.out.println("--- Dados Prestador ---");
             System.out.println("Prestador: " + nomePrestador);
             System.out.println("CNPJ: " + cnpj);
-            System.out.println("Valor por Hora: R$" + valorHora);
-            System.out.println("Horas Trabalhadas: " + horasTrabalhadas);
-            System.out.println("Bônus: R$" + bonus);
-            System.out.println("Pagamento Total: R$" + calcularSalario());
+            System.out.println("===================");
         }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public String getNomePrestador() {
+        return nomePrestador;
+    }
+
+    public double getValorHora() {
+        return valorHora;
+    }
+
+    public int getHorasTrabalhadas() {
+        return horasTrabalhadas;
+    }
+
+    public double getBonus() {
+        return bonus;
+    }
 }
+
 

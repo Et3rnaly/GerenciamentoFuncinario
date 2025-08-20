@@ -3,7 +3,7 @@ package controledefuncionarios.enums.enumspj;
 public enum BonusRelacionado {
     BONUS_DEFAUT(0.05),
     BONUS_MEDIO(0.10),
-    BONUS_MAXIMO(Double.MAX_VALUE);
+    BONUS_MAXIMO(0.20);
 
     private double bonus;
 

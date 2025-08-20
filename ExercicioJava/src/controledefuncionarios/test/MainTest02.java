@@ -1,10 +1,10 @@
 package controledefuncionarios.test;
 
 import controledefuncionarios.domain.*;
-import controledefuncionarios.enums.TipoFuncionario;
 import controledefuncionarios.exceptions.IllegalSalaryArgumentException;
 import controledefuncionarios.exceptions.InvalidOperationTipeException;
 import controledefuncionarios.exceptions.InvalidValueBooleanException;
+import controledefuncionarios.utils.CPFUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,11 @@ public class MainTest02 {
 
                         System.out.println("Digite o cpf do seu funcionario: ");
                         String cpf = input.nextLine();
+
+                        if (!CPFUtil.isValidCpf(cpf)) {
+                            System.out.println("\nCPF inválido. Operação cancelada.");
+                            continue;
+                        }
 
                         System.out.println("Informe o salario do seu funcionario Ex (2000.50)");
 
@@ -159,12 +164,35 @@ public class MainTest02 {
                         continue;
                     }
 
-                    for (int i = 0; i < funcionarios.size(); i++) {
-                        System.out.println("Quantas horas extras seu funcionario fez: ");
-                        int quantidadeDeHorasExtras = Integer.parseInt(input.nextLine());
+                    System.out.println("Realizou horas extras esse mês: ('true' ou 'false'");
 
-                        System.out.println("Qual o valor da hora para esse funcionario: ");
-                        int valorDaHoraExtra = Integer.parseInt(input.nextLine());
+
+
+                    boolean isHorasExtras;
+                    String entrada = input.nextLine().trim();
+                    try {
+                        if (!entrada.equalsIgnoreCase("true") && !entrada.equalsIgnoreCase("false")) {
+                            throw new InvalidValueBooleanException("\nErro! O valor digitado não é válido. Digite apenas 'true' ou 'false'. Operação cancelada.");
+                        }
+                        isHorasExtras = Boolean.parseBoolean(entrada);
+                    } catch (InvalidValueBooleanException e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+
+                    int quantidadeDeHorasExtras = 0;
+                    int valorDaHoraExtra = 0;
+
+
+                    for (int i = 0; i < funcionarios.size(); i++) {
+
+                        if (isHorasExtras) {
+                            System.out.println("Quantas horas extras seu funcionario fez: ");
+                            quantidadeDeHorasExtras = Integer.parseInt(input.nextLine());
+
+                            System.out.println("Qual o valor da hora para esse funcionario: ");
+                            valorDaHoraExtra = Integer.parseInt(input.nextLine());
+                        }
 
                         ContratoDeTrabalho novoCotrato = new ContratoDeTrabalho(funcionarios.get(i), valorDaHoraExtra, quantidadeDeHorasExtras);
 
@@ -179,6 +207,8 @@ public class MainTest02 {
                     System.out.println("Saindo do progama, ate logo!");
                     input.close();
                     return;
+
+
             }
 
         }

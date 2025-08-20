@@ -22,11 +22,11 @@ public class FuncionarioClt extends Funcionario {
         return temBeneficos;
     }
 
-    private double aplicarBeneficio() {
+    public double aplicarBeneficio() {
        return beneficios = valeTranposte;
     }
 
-    private double desconto() {
+    public double desconto() {
         FaixaSalario faixa = FaixaSalario.porSalario(getSalarioBase());
         return descontos = faixa.getFaixaINSS().calcularDesconto(getSalarioBase());
     }
@@ -56,7 +56,7 @@ public class FuncionarioClt extends Funcionario {
 
     @Override
     public void exbirDados() {
-        System.out.println("\n--- Funcionario CLT ---");
+        System.out.println("\n--- Dados CLT ---");
         System.out.println("\nNome: " + getNome());
         System.out.println("Cpf: " + getCpf());
         System.out.println("Tem beneficio: " + temBeneficos);
