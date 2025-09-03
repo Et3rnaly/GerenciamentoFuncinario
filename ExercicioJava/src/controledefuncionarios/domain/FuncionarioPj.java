@@ -1,62 +1,85 @@
 package controledefuncionarios.domain;
 
 import controledefuncionarios.enums.enumspj.BonusRelacionado;
+import controledefuncionarios.interfaces.DescontosPj;
 
-public class FuncionarioPj extends Funcionario {
+public class FuncionarioPj extends Funcionario implements DescontosPj {
 
-    private int horasTrabalhadas;
-    private boolean possuiBonus;
-    private int projetosEntregues;
-    private double salarioFinal;
+    private String nomePrestador;
     private String cnpj;
+    private double valorHora;
+    private int horasTrabalhadas;
+    private boolean isBonus;
+    private double bonus;
 
-    public FuncionarioPj(String nome, String cpf,String cnpj ,double salarioBase, int entrega) {
-        super(nome, cpf, salarioBase);
-        this.projetosEntregues = entrega;
+    public FuncionarioPj(String nomePrestador, String cnpj, double valorHora, int horasTrabalhadas, boolean bonus) {
+        super(nomePrestador, null, valorHora);
+        this.horasTrabalhadas = horasTrabalhadas;
+        this.isBonus = bonus;
+        this.valorHora = valorHora;
         this.cnpj = cnpj;
+        this.nomePrestador = nomePrestador;
     }
 
-    public double aplicarBonus() {
-        if (projetosEntregues <= 0) return 0;
+    @Override
+    public double calcularISS(double valorServico) {
+        return DescontosPj.super.calcularISS(valorServico);
+    }
+
+    public double aplicarBonus(int projetosEntregues) {
+        if (!isBonus || projetosEntregues <= 0) {
+            bonus = 0;
+            return bonus;
+        }
 
         if (projetosEntregues <= 2) {
-            return BonusRelacionado.BONUS_DEFAUT.getBonus() * getSalarioBase();
+            bonus = BonusRelacionado.BONUS_DEFAUT.getBonus() * calcularSalario();
         } else if (projetosEntregues <= 5) {
-            return BonusRelacionado.BONUS_MEDIO.getBonus() * getSalarioBase();
+            bonus = BonusRelacionado.BONUS_MEDIO.getBonus() * calcularSalario();
         } else {
-            return BonusRelacionado.BONUS_MAXIMO.getBonus() * getSalarioBase();
+            bonus = BonusRelacionado.BONUS_MAXIMO.getBonus() * calcularSalario();
         }
+
+        return bonus;
     }
 
-@Override
-public double calcularSalario() {
-    salarioFinal = getSalarioBase();
+    @Override
+    public double calcularSalario() {
+        double salarioBruto = this.valorHora * this.horasTrabalhadas;
+        double desconto = calcularISS(salarioBruto);
+        double salarioLiquidoFinal = salarioBruto - desconto + bonus;
 
-    double bonus = aplicarBonus();
+        return salarioLiquidoFinal;
+    }
 
-    salarioFinal += bonus;
-
-
-    return salarioFinal;
-}
 
     @Override
     public void exbirDados() {
-        System.out.println("--- Funcionario PJ ---");
-        System.out.println("\nNome: " + getNome());
-        System.out.println("Cpf: " + getCpf());
-        System.out.println("Cnpj: " + cnpj);
-        System.out.println("=======================");
+        System.out.println("--- Dados Prestador ---");
+            System.out.println("Prestador: " + nomePrestador);
+            System.out.println("CNPJ: " + cnpj);
+            System.out.println("===================");
+        }
+
+    public String getCnpj() {
+        return cnpj;
     }
 
-    @Override
-public String toString() {
-    return "FuncionarioPj{" +
-            "horasTrabalhadas=" + horasTrabalhadas +
-            ", possuiBonus=" + possuiBonus +
-            ", projetosEntregues=" + projetosEntregues +
-            ", salarioFinal=" + salarioFinal +
-            '}';
+    public String getNomePrestador() {
+        return nomePrestador;
+    }
+
+    public double getValorHora() {
+        return valorHora;
+    }
+
+    public int getHorasTrabalhadas() {
+        return horasTrabalhadas;
+    }
+
+    public double getBonus() {
+        return bonus;
+    }
 }
-}
+
 
