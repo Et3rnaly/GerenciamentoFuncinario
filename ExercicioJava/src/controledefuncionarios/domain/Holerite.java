@@ -21,7 +21,7 @@ public class Holerite {
         if (contrato.getFuncionario() instanceof FuncionarioClt clt) {
 
             System.out.println("Funcionario: " + clt.getNome());
-            System.out.println("CPF: " + clt.getCpf());
+            System.out.println("CPF: " + clt.getDocumento());
 
             clt.aplicarBeneficio();
             System.out.println("Valor do benefio: " + numberFormat.format(clt.getBeneficios()));
@@ -31,6 +31,7 @@ public class Holerite {
 
             System.out.println("Salario bruto: " + numberFormat.format(clt.getSalarioBase()));
             System.out.println("Horas extras: " + contrato.getHorasExtras());
+            System.out.println("Decimo terceiro: " + clt.dercimoTerceiro());
             System.out.println("Salario liquido final: " + numberFormat.format(contrato.calcularSalarioFinal()));
 
             System.out.println("Data de impresão: " + mes);
