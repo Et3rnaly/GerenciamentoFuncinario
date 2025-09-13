@@ -3,7 +3,7 @@ package controledefuncionarios.domain;
 import controledefuncionarios.enums.enumspj.BonusRelacionado;
 import controledefuncionarios.interfaces.DescontosPj;
 
-public class FuncionarioPj extends Funcionario implements DescontosPj {
+public class FuncionarioPj extends Funcionario implements DescontosPj, Comparable<Funcionario> {
 
     private String nomePrestador;
     private String cnpj;
@@ -13,7 +13,7 @@ public class FuncionarioPj extends Funcionario implements DescontosPj {
     private double bonus;
 
     public FuncionarioPj(String nomePrestador, String cnpj, double valorHora, int horasTrabalhadas, boolean bonus) {
-        super(nomePrestador, null, valorHora);
+        super(nomePrestador, cnpj, valorHora);
         this.horasTrabalhadas = horasTrabalhadas;
         this.isBonus = bonus;
         this.valorHora = valorHora;
@@ -79,6 +79,11 @@ public class FuncionarioPj extends Funcionario implements DescontosPj {
 
     public double getBonus() {
         return bonus;
+    }
+
+    @Override
+    public int compareTo(Funcionario o) {
+        return this.getDocumento().compareTo(o.getDocumento());
     }
 }
 

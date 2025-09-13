@@ -6,16 +6,15 @@ import controledefuncionarios.exceptions.InvalidOperationTipeException;
 import controledefuncionarios.exceptions.InvalidValueBooleanException;
 import controledefuncionarios.utils.CPFUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainTest02 {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        List<Funcionario> funcionarios = new ArrayList<>();
-        List<ContratoDeTrabalho> contratos = new ArrayList<>();
+        NavigableSet<Funcionario> funcionarios = new TreeSet<>();
+        Map<String, List<Funcionario>> funcionariosMap = new HashMap<>();
+        List<Funcionario> funcionarioList = new ArrayList<>();
         List<Holerite> holerites = new ArrayList<>();
 
         System.out.println("Bem-vindo ao sistema de gerenciamento de funcionários!");
@@ -23,7 +22,7 @@ public class MainTest02 {
         while (true) {
             System.out.println("\n--- Menu principal ---");
             System.out.println("\n1. Adicionar novo funcionário");
-            System.out.println("2. Listar todos os funcionários");
+            System.out.println("2. Listar funcionários");
             System.out.println("3. Holerite dos funcionarios");
             System.out.println("4. Sair do sistema");
             System.out.print("Escolha uma opção: ");
@@ -34,7 +33,7 @@ public class MainTest02 {
                 case "1":
                     System.out.print("\nO funcionário é CLT ou PJ? (Digite 'CLT' ou 'PJ'): ");
 
-                    String tipoFuncionario = input.nextLine().trim();
+                    String tipoFuncionario = input.nextLine().trim().toUpperCase();
 
                     try {
                         Funcionario.isValidTipe(tipoFuncionario);
@@ -58,7 +57,7 @@ public class MainTest02 {
 
                         System.out.println("Informe o salario do seu funcionario Ex (2000.50)");
 
-                        double salario = -1;
+                        double salario;
 
                         try {
                             salario = Double.parseDouble(input.nextLine());
@@ -84,7 +83,7 @@ public class MainTest02 {
                         }
 
                         System.out.println("Quanto tempo trabalhou na empresa: ");
-                        int tempoDeEmpresa = 0;
+                        int tempoDeEmpresa;
 
                         try {
                             tempoDeEmpresa = Integer.parseInt(input.nextLine());
@@ -93,7 +92,12 @@ public class MainTest02 {
                             continue;
                         }
 
-                        funcionarios.add(new FuncionarioClt(nome, cpf, salario, beneficio, tempoDeEmpresa));
+                        FuncionarioClt f = new FuncionarioClt(nome, cpf, salario, beneficio, tempoDeEmpresa);
+                        funcionarioList.add(f);
+
+                        funcionarios.add(f);
+                        funcionariosMap.computeIfAbsent(tipoFuncionario, k -> new ArrayList<>()).add(f);
+
 
                         System.out.println("\nFuncionarioCLT adicionando com sucesso!");
 
@@ -128,7 +132,7 @@ public class MainTest02 {
 
                         if (bonus) {
                             System.out.println("informe quantas entregas esse prestador relaizou: ");
-                            int entregas = 0;
+                            int entregas;
 
                             try {
                                 entregas = Integer.parseInt(input.nextLine());
@@ -141,6 +145,8 @@ public class MainTest02 {
                         }
 
                         funcionarios.add(f);
+                        funcionarioList.add(f);
+                        funcionariosMap.computeIfAbsent(tipoFuncionario, k -> new ArrayList<>()).add(f);
                         System.out.println("\nFuncionarioPJ adicionando com sucesso!");
 
                     }
@@ -152,8 +158,25 @@ public class MainTest02 {
                         continue;
                     }
 
-                    for (Funcionario f : funcionarios) {
-                        f.exbirDados();
+                    System.out.println("Qual tipo de funcionário deseja listar? (CLT / PJ / TODOS)");
+                    String tipo = input.nextLine().trim().toUpperCase();
+
+                    if (tipo.equals("TODOS")) {
+                        for (List<Funcionario> list : funcionariosMap.values()) {
+                            for (Funcionario f : list)
+                                f.exbirDados();
+                        }
+                    } else if (funcionariosMap.containsKey(tipo)) {
+
+                        List<Funcionario> listaTipo = funcionariosMap.get(tipo);
+
+                        for (Funcionario f : listaTipo) {
+                            f.exbirDados();
+                        }
+
+                    } else {
+                        System.out.println("Tipo inválido. Digite CLT, PJ ou TODOS.");
+                        continue;
                     }
 
                     continue;
@@ -184,7 +207,7 @@ public class MainTest02 {
                     int valorDaHoraExtra = 0;
 
 
-                    for (int i = 0; i < funcionarios.size(); i++) {
+                    for (Funcionario funcionario : funcionarios) {
 
                         if (isHorasExtras) {
                             System.out.println("Quantas horas extras seu funcionario fez: ");
@@ -194,7 +217,7 @@ public class MainTest02 {
                             valorDaHoraExtra = Integer.parseInt(input.nextLine());
                         }
 
-                        ContratoDeTrabalho novoCotrato = new ContratoDeTrabalho(funcionarios.get(i), valorDaHoraExtra, quantidadeDeHorasExtras);
+                        ContratoDeTrabalho novoCotrato = new ContratoDeTrabalho(funcionario, valorDaHoraExtra, quantidadeDeHorasExtras);
 
                         Holerite novoHolerite = new Holerite(novoCotrato);
 

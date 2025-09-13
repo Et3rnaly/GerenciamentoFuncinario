@@ -2,8 +2,7 @@ package controledefuncionarios.domain;
 
 import controledefuncionarios.enums.FaixaSalario;
 
-public class FuncionarioClt extends Funcionario {
-
+public class FuncionarioClt extends Funcionario implements Comparable<Funcionario> {
     private double beneficios;
     private double descontos;
     private boolean temBeneficos;
@@ -18,10 +17,6 @@ public class FuncionarioClt extends Funcionario {
         this.tempoDeEmpresaEmMeses = tempoDeEmpresaEmMeses;
     }
 
-    private boolean temBeneficio() {
-        return temBeneficos;
-    }
-
     public double aplicarBeneficio() {
        return beneficios = valeTranposte;
     }
@@ -31,7 +26,7 @@ public class FuncionarioClt extends Funcionario {
         return descontos = faixa.getFaixaINSS().calcularDesconto(getSalarioBase());
     }
 
-    private double dercimoTerceiro() {
+    public double dercimoTerceiro() {
         return getSalarioBase() / 12 * tempoDeEmpresaEmMeses;
     }
 
@@ -58,7 +53,7 @@ public class FuncionarioClt extends Funcionario {
     public void exbirDados() {
         System.out.println("\n--- Dados CLT ---");
         System.out.println("\nNome: " + getNome());
-        System.out.println("Cpf: " + getCpf());
+        System.out.println("Cpf: " + getDocumento());
         System.out.println("Tem beneficio: " + temBeneficos);
         System.out.println("Tempo de empresa: " + tempoDeEmpresaEmMeses);
         System.out.println("=======================");
@@ -80,47 +75,12 @@ public class FuncionarioClt extends Funcionario {
         return beneficios;
     }
 
-    public void setBeneficios(double beneficios) {
-        this.beneficios = beneficios;
-    }
-
     public double getDescontos() {
         return descontos;
     }
 
-    public void setDescontos(double descontos) {
-        this.descontos = descontos;
-    }
-
-    public boolean isTemBeneficos() {
-        return temBeneficos;
-    }
-
-    public void setTemBeneficos(boolean temBeneficos) {
-        this.temBeneficos = temBeneficos;
-    }
-
-    public int getTempoDeEmpresaEmMeses() {
-        return tempoDeEmpresaEmMeses;
-    }
-
-    public void setTempoDeEmpresaEmMeses(int tempoDeEmpresaEmMeses) {
-        this.tempoDeEmpresaEmMeses = tempoDeEmpresaEmMeses;
-    }
-
-    public double getSalarioFinal() {
-        return salarioFinal;
-    }
-
-    public void setSalarioFinal(double salarioFinal) {
-        this.salarioFinal = salarioFinal;
-    }
-
-    public double getValeTranposte() {
-        return valeTranposte;
-    }
-
-    public void setValeTranposte(double valeTranposte) {
-        this.valeTranposte = valeTranposte;
+    @Override
+    public int compareTo(Funcionario o) {
+        return this.getDocumento().compareTo(o.getDocumento());
     }
 }

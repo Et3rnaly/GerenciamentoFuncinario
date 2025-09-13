@@ -4,7 +4,7 @@ public class CPFUtil {
     public static boolean isValidCpf(String cpf) {
         String numberCPF = cpf.replaceAll("[^0-9]", "");
 
-        if (numberCPF == null || numberCPF.length() != 11) {
+        if (numberCPF.length() != 11) {
             return false;
         }
 

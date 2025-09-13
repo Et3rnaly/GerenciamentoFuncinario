@@ -4,18 +4,20 @@ import controledefuncionarios.enums.TipoFuncionario;
 import controledefuncionarios.exceptions.IllegalSalaryArgumentException;
 import controledefuncionarios.exceptions.InvalidOperationTipeException;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class Funcionario {
     private String nome;
-    private String cpf;
+    private String documento;
     private double salarioBase;
     ContratoDeTrabalho contrato;
 
     public Funcionario(String nome, String cpf, double salarioBase) {
         this.nome = nome;
-        this.cpf = cpf;
+        this.documento = cpf;
         this.salarioBase = salarioBase;
     }
 
@@ -35,6 +37,18 @@ public abstract class Funcionario {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Funcionario that = (Funcionario) o;
+        return Objects.equals(documento, that.documento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(documento);
+    }
+
     public abstract void exbirDados();
 
     public abstract double calcularSalario();
@@ -47,12 +61,12 @@ public abstract class Funcionario {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getDocumento() {
+        return documento;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
 
     public double getSalarioBase() {
@@ -63,3 +77,4 @@ public abstract class Funcionario {
         this.salarioBase = salarioBase;
     }
 }
+
