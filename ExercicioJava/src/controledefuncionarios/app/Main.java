@@ -1,10 +1,10 @@
-package controledefuncionarios.test;
+package controledefuncionarios.app;
 
 import controledefuncionarios.service.FuncionarioService;
 
-import java.util.*;
+import java.util.Scanner;
 
-public class MainTest02 {
+public class Main {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
