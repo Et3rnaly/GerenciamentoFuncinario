@@ -1,77 +1,109 @@
-Gerenciamento de Funcionários
+# 📊 Sistema de Gestão de Funcionários (CLT e PJ)
 
-Este projeto Java é um sistema de gerenciamento de funcionários que demonstra conceitos de Programação Orientada a Objetos (POO), incluindo herança, polimorfismo e o uso de enums para regras de negócio. O sistema permite o cálculo de salários para diferentes tipos de funcionários (CLT e PJ), aplicando descontos de INSS e benefícios.
+## 📌 Sobre o Projeto
+Este projeto é um sistema desenvolvido em Java com foco no gerenciamento de funcionários dos tipos CLT e PJ, simulando regras de negócio reais utilizadas em empresas.
 
-Funcionalidades
+A aplicação permite o cadastro, organização e processamento de dados de funcionários, incluindo validações, cálculo de pagamentos e geração de holerites.
 
-•
-Cálculo de Salário CLT: Calcula o salário de funcionários CLT, considerando salário base, benefícios (vale transporte) e descontos de INSS.
+O principal objetivo foi aplicar conceitos sólidos de programação e simular cenários próximos ao mercado de trabalho.
 
-•
-Cálculo de Salário PJ: (Em desenvolvimento) Previsão de cálculo de salário para funcionários PJ, com bônus por projetos entregues.
+---
 
-•
-Estrutura de Classes: Utiliza classes como Funcionario (abstrata), FuncionarioClt, FuncionarioPj, ContratoDeTrabalho, Holerite e enums para FaixaINSS e FaixaSalario.
+## 🚀 Funcionalidades
 
-•
-Interatividade: Permite a entrada de dados de funcionários via console para simulação de cálculos.
+- Cadastro de funcionários CLT e PJ  
+- Validação de CPF  
+- Validação de salário e entradas do usuário  
+- Separação de funcionários por tipo (CLT/PJ)  
+- Cálculo de pagamento com horas extras  
+- Aplicação de bônus para prestadores PJ  
+- Geração de holerite  
+- Listagem de funcionários (CLT, PJ ou todos)  
+- Ordenação de funcionários por CPF  
 
-•
-Regras de Negócio: Implementa as regras de cálculo de INSS baseadas em faixas salariais e o cálculo de 13º salário para funcionários CLT.
+---
 
-Estrutura do Projeto
+## 🧠 Conceitos Aplicados
 
-O projeto está organizado da seguinte forma:
+- Programação Orientada a Objetos (POO)  
+- Estruturas de Dados (List, Map, Set)  
+- Tratamento de Exceções Customizadas  
+- Separação em Camadas (domain, service, utils, exceptions)  
+- Comparator para ordenação personalizada  
+- Boas práticas de organização de código  
 
-Plain Text
+---
 
+## 🛠️ Tecnologias Utilizadas
 
-GerenciamentoFuncinario/
-├── ExercicioJava/
-│   ├── src/
-│   │   ├── controledefuncionarios/
-│   │   │   ├── domain/             # Classes de domínio (Funcionario, ContratoDeTrabalho, Holerite, etc.)
-│   │   │   ├── enums/              # Enums para regras de negócio (FaixaINSS, FaixaSalario)
-│   │   │   └── test/               # Classes de teste e execução principal (Main.java)
-│   └── ...
-└── ...
+- Java  
+- Coleções Java (List, Map, Set, TreeSet)  
 
+---
 
-Como Executar
+## 📂 Estrutura do Projeto
+```
+controledefuncionarios/
+│
+├── domain/ → Entidades do sistema (Funcionario, CLT, PJ, etc)
+├── service/ → Regras de negócio
+├── utils/ → Utilitários (ex: validação de CPF)
+├── exceptions/ → Exceções customizadas
+```
+---
 
-Para executar este projeto, você precisará de um ambiente de desenvolvimento Java (JDK) instalado (versão 8 ou superior).
+## ▶️ Como Executar
 
-1.
-Clone o Repositório:
+1. Clone o repositório:
+```
+git clone https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git'
+```
 
-2.
-Compile o Projeto:
+2. Abra o projeto em sua IDE (IntelliJ, Eclipse ou VS Code)
 
-3.
-Execute a Aplicação:
+3. Execute a classe principal do projeto
 
-Próximos Passos e Melhorias Potenciais
+4. Utilize o terminal para interagir com o sistema
 
-•
-Completar a implementação do cálculo de salário para FuncionarioPj.
+---
 
-•
-Adicionar validações de entrada para garantir a robustez do sistema.
+## 💡 Diferenciais do Projeto
 
-•
-Implementar testes unitários para as classes de domínio.
+Este projeto vai além de um CRUD básico, incluindo:
 
-•
-Considerar a criação de uma interface gráfica (GUI) ou uma API REST para interação com o sistema.
+- Regras de negócio reais (CLT vs PJ)  
+- Validações robustas de dados  
+- Simulação de folha de pagamento  
+- Uso de exceções personalizadas  
+- Organização próxima de projetos profissionais  
 
-•
-Melhorar a documentação Javadoc para todas as classes e métodos.
+---
 
-Contribuição
+## 📈 Possíveis Melhorias
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests para melhorias e correções de bugs.
+- Interface gráfica (JavaFX ou Web)  
+- Integração com banco de dados  
+- API REST com Spring Boot  
+- Testes automatizados  
+- Separação completa entre camada de entrada e lógica  
 
-Licença
+---
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes. (Assumindo licença MIT, se houver um arquivo LICENSE no repositório, por favor, verifique e ajuste.)
+## 👨‍💻 Autor
 
+Desenvolvido por **Samuel**  
+📍 Estudante de Análise e Desenvolvimento de Sistemas  
+💼 Focado em desenvolvimento backend com Java  
+
+---
+
+## 📬 Contato
+
+- LinkedIn: https://www.linkedin.com/in/samuel-lima-0b4b98188/  
+- GitHub: https://github.com/Et3rnaly  
+
+---
+
+## ⭐ Considerações Finais
+
+Este projeto representa a aplicação prática de conceitos fundamentais de desenvolvimento backend, com foco em lógica de negócio, organização de código e preparação para o mercado de trabalho.
